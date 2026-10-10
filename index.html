@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบช่วยตรวจสอบท่าบริหารกล้ามเนื้อใต้คาง</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="header">
+    <div>
+      <h1>ระบบช่วยตรวจสอบท่าบริหารกล้ามเนื้อใต้คาง</h1>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel settings">
+      <h2>ตั้งค่าการฝึก</h2>
+
+      <div class="form-grid">
+        <label for="bodyPosition">
+          ตำแหน่งร่างกาย
+          <select id="bodyPosition">
+            <option value="lying">ท่านอน</option>
+            <option value="sitting">ท่านั่ง</option>
+          </select>
+        </label>
+
+        <label for="exercise">
+          ท่าบริหาร
+          <select id="exercise">
+            <option value="lying_hold">ท่าที่ 1: นอนยกศีรษะค้าง</option>
+            <option value="lying_reps">ท่าที่ 2: นอนยกและผ่อนศีรษะ</option>
+            <option value="sitting_hold">ท่าที่ 3: นั่งกดศีรษะต้านบอล</option>
+            <option value="sitting_reps">ท่าที่ 4: นั่งกดบอลและปล่อย</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-title">
+          <h2>ภาพจากกล้อง</h2>
+          <span id="cameraStatus" class="chip">ยังไม่เปิดกล้อง</span>
+        </div>
+
+        <div class="camera-stage">
+          <video id="camera" autoplay playsinline muted></video>
+          <canvas id="output"></canvas>
+
+          <div id="cameraPlaceholder" class="placeholder">
+            กด “เปิดกล้อง” เพื่อเริ่มต้น
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button id="startCamera" disabled>เปิดกล้อง</button>
+          <button id="stopCamera" class="secondary" disabled>ปิดกล้อง</button>
+        </div>
+
+        <div class="button-row">
+          <button id="calibrateButton" class="secondary" disabled>
+            ปรับเทียบท่าเริ่มต้น
+          </button>
+          <button id="beginExercise" disabled>เริ่มฝึก</button>
+          <button id="resetExercise" class="danger">รีเซ็ต</button>
+        </div>
+
+        <div class="library-status">
+          <p>
+            MediaPipe:
+            <strong id="mediapipeStatus">กำลังโหลด</strong>
+          </p>
+          <button id="retryModel" class="secondary" hidden>
+            ลองโหลด MediaPipe อีกครั้ง
+          </button>
+        </div>
+      </section>
+
+      <div class="right-column">
+        <section class="panel">
+          <h2>ผลการฝึก</h2>
+
+          <p class="muted">ท่าที่เลือก</p>
+          <h3 id="exerciseName">ท่าที่ 1: นอนยกศีรษะค้าง</h3>
+          <p id="exerciseStatus">รอเปิดกล้อง</p>
+
+          <div class="metrics">
+            <div class="metric">
+              <span>มุมที่เปลี่ยน</span>
+              <strong id="angleValue">--°</strong>
+            </div>
+
+            <div class="metric">
+              <span>เวลาค้าง / พัก</span>
+              <strong id="timerValue">00:00</strong>
+            </div>
+
+            <div class="metric">
+              <span>จำนวนครั้ง</span>
+              <strong id="repValue">0</strong>
+            </div>
+
+            <div class="metric">
+              <span>รอบ</span>
+              <strong id="roundValue">0 / 3</strong>
+            </div>
+          </div>
+
+          <div class="progress-heading">
+            <span>ความคืบหน้า</span>
+            <span id="progressText">0%</span>
+          </div>
+
+          <div class="progress-track">
+            <div id="progressBar"></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>คำแนะนำ</h2>
+
+          <p id="poseStatus" class="status" role="status" aria-live="polite">
+            กำลังเตรียมระบบ...
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="./script.js"></script>
+</body>
+</html>
